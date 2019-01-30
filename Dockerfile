@@ -1,9 +1,30 @@
-FROM maven:3.5-jdk-8
+#################### BUILD STEP
+FROM maven:3.5-jdk-8 as builder
 
-CMD mvn clean install
+#Working directory
+WORKDIR /usr/src
 
-ADD target/spring-boot-docker-0.1.0.jar app.jar
+#Copy project
+COPY . .
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+#Check content
+RUN ls /usr/src
+
+#Package
+RUN mvn package -DskipTests
+
+################### RUN STP
+FROM openjdk:8-jre-stretch
+
+#Create destination folder
+RUN mkdir /destination
+
+#Copy package
+COPY --from=builder /usr/src/target/spring-boot-docker-0.1.0.jar /destination/app.jar
+
+RUN ls /destination/app.jar
+
+#Run app
+ENTRYPOINT ["java","-jar","/destination/app.jar"]
 
 
