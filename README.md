@@ -118,3 +118,12 @@ postgres -H psql
 <yourname>/postgresql  ]
    
   Connexion a la nbd:  psql -U username -h $(docker inspect --format {{.NetworkSettings.IPAddress}} postgresql)
+  
+  Apache2:
+  
+   docker build --rm -t <username>/httpd .
+   docker run -d -p 8080:8080 <username>/httpd
+   docker run -d -p 8080 <username>/httpd
+   docker ps
+Test
+# curl http://localhost:8080
