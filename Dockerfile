@@ -14,7 +14,7 @@ RUN ls /usr/src
 RUN mvn package -DskipTests
 
 ################### RUN STP
-FROM openjdk:8-jre-stretch
+FROM java:8-jre-alpine
 
 #Create destination folder
 RUN mkdir /destination
