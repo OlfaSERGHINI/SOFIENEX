@@ -98,3 +98,11 @@ docker build . -t spbex
 and than call run 
 
 docker run spbex
+
+Postgresql
+docker build -rm -t username/postgresql:centos6 . |& tee postgres_build.log
+docker run -d -p 5432:5432 username/postgresql:centos6
+docker run -d -p 5432 username/postgresql:centos6
+docker ps
+docker inspect 7a1e1a80e948 | grep -i ipaddress
+psql -h 172.17.0.x -U dockeruser -d dockerdb
