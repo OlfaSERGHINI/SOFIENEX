@@ -104,14 +104,17 @@ Olfa :
 
 Postgresql:
 
-to build :docker build -rm -t username/postgresql:centos6 . |& tee postgres_build.log
+to build :# docker build --rm -t <yourname/postgresql .
 
-to run : docker run -d -p 5432:5432 username/postgresql:centos6
+to run : docker run --name=postgresql -d -p 5432:5432 <yourname>/postgresql
 
-To Assign port docker run -d -p 5432 username/postgresql:centos6
+docker run -it --rm --volumes-from=postgresql <yourname>/postgres sudo -u
+postgres -H psql
 
-docker ps
-
-docker inspect 7a1e1a80e948 | grep -i ipaddress
-
-psql -h 172.17.0.x -U dockeruser -d dockerdb
+[creation d'une base : docker run --name postgresql -d \
+-e 'DB_USER=username' \
+-e 'DB_PASS=ridiculously-complex_password1' \
+-e 'DB_NAME=my_database' \
+<yourname>/postgresql  ]
+   
+  Connexion a la nbd:  psql -U username -h $(docker inspect --format {{.NetworkSettings.IPAddress}} postgresql)
